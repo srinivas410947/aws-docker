@@ -1,14 +1,15 @@
 node {
-  stage('Checkout') {
- // Get CalibrationResults from GitHub
-    checkout([  
-            $class: 'GitSCM', 
-            branches: [[name: 'refs/heads/master']], 
-            doGenerateSubmoduleConfigurations: false, 
-            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'CalibrationResults']], 
-            submoduleCfg: [], 
-            userRemoteConfigs: [[credentialsId: 'git_credentials', url: 'https://github.com/srinivas410947/aws-docker.git']]
-        ])
+    stage('CheckoutModule1') {
+        steps {
+            sh 'mkdir -p aws-docker'
+            dir("aws-docker")
+            {
+                git branch: "master",
+                credentialsId: 'git_credentials',
+                url: 'https://github.com/srinivas410947/aws-docker.git'
+            }
+        }
+    }
   stage 'Docker build'
   docker.build('demo')
  
