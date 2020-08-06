@@ -1,4 +1,10 @@
 node {
+  stage "checkout'
+  git(
+       url: 'https://github.com/srinivas410947/aws-docker.git',
+       credentialsId: 'git_credentials',
+       branch: "master"
+    )
   stage 'Docker build'
   docker.build('demo')
  
