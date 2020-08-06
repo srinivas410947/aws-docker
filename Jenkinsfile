@@ -1,7 +1,4 @@
 node {
-  stage 'Checkout'
-  git 'ssh://git@github.com/srinivas410947/aws-docker.git'
- 
   stage 'Docker build'
   docker.build('demo')
  
