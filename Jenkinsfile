@@ -1,15 +1,7 @@
 node {
-  stage('CheckoutModule1') {
-      steps {
-          sh 'mkdir -p aws-docker'
-          dir("aws-docker")
-          {
-              git branch: "master",
-              credentialsId: 'git_credentials',
-              url: 'https://github.com/srinivas410947/aws-docker.git'
-          }
-      }
-  }
+  stage 'Checkout'
+  checkout scm
+  
   stage 'Docker build'
   docker.build('demo')
  
