@@ -6,7 +6,7 @@ node {
   docker.build('demo')
  
   stage 'Docker push'
-  docker.withRegistry('https://164171922319.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-personal') {
+  docker.withRegistry('https://164171922319.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws_jenkins') {
     docker.image('demo').push('latest')
   stage "removing docker images"
   sh "docker rmi demo 164171922319.dkr.ecr.us-east-2.amazonaws.com/demo"
