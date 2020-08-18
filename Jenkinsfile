@@ -1,14 +1,26 @@
-node {
-  stage 'Checkout'
-  checkout scm
-  
-  stage 'Docker build'
-  docker.build('demo')
- 
-  stage 'Docker push'
-  docker.withRegistry('https://164171922319.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws_jenkins') {
-    docker.image('demo').push('latest')
-  stage "removing docker images"
-  sh "docker rmi demo 164171922319.dkr.ecr.us-east-2.amazonaws.com/demo"
+pipeline {
+  environment {
+    registry = '164171922319.dkr.ecr.us-east-2.amazonaws.com/demo'
+    registryCredential = 'aws_jenkins'
+    dockerImage = 'testing'
+  }
+  agent any
+  stages {
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy image') {
+        steps{
+            script{
+                docker.withRegistry("https://" + registry, "ecr:us-east-2:" + registryCredential) {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
   }
 }
