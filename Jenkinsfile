@@ -16,11 +16,18 @@ pipeline {
     stage('Deploy image') {
         steps{
             script{
-                docker.withRegistry("https://" + registry, "ecr:us-east-2:" + registryCredential) {
+                docker.withRegistry("https://" + registry, "ecr:us-east-2:" + registryCredential)
                     dockerImage.push()
-                }
+                
             }
         }
+    }
+    stage ('Removing images') {
+	   steps{
+	      script{
+		     sh "docker rmi -f $(docker images -q)
+			 }
+	   }
     }
   }
 }
