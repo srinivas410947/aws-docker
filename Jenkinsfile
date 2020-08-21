@@ -25,7 +25,7 @@ pipeline {
     stage ('Removing images') {
 	   steps{
 	      script{
-		     sh "docker rmi -f /$(docker images -q)"
+		     sh "docker rmi -f \$(docker images -q)"
 			 }
 	   }
     }
