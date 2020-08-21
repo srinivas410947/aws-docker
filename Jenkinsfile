@@ -25,7 +25,13 @@ pipeline {
     stage ('Removing images') {
 	   steps{
 	      script{
-		     sh "docker rmi -f \$(docker images -q)"
+		     sh """
+			   docker ps -a \
+			    | awk '{ print \$1,\$2 }' \
+			    | grep imagename \
+			    | awk '{print \$1 }' \
+			    | xargs -I {} docker rm -f {}
+			  """
 			 }
 	   }
     }
