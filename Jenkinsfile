@@ -2,7 +2,7 @@ pipeline {
   environment {
     registry = '164171922319.dkr.ecr.us-east-2.amazonaws.com/demo'
     registryCredential = 'aws-personal'
-    dockerImage = 'testing'
+    dockerImage = ''
   }
   agent any
   stages {
@@ -25,7 +25,7 @@ pipeline {
     stage ('Removing images') {
 	   steps{
 	      script{
-		     sh "docker rmi -f $(docker images -q)
+		     sh "docker rmi $registry:$BUILD_NUMBER"
 			 }
 	   }
     }
